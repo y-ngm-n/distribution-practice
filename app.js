@@ -10,7 +10,7 @@ const passport = require("passport");
 const helmet = require("helmet");
 const hpp = require("hpp");
 const redis = require("redis");
-const RedisStore = require("connect-redis")(session);
+const RedisStore = require("connect-redis").default;
 
 // import files
 const logger = require("./config/logger");
