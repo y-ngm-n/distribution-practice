@@ -11,7 +11,7 @@ const initDB = async (db) => {
   if (info === undefined) {
     const query = "\
 create database " + process.env.DB_NAME + ";\
- use " + process.env.DB_NAME + ";\
+use " + process.env.DB_NAME + ";\
 create table users (\
 id int not null auto_increment,\
 email varchar(40),\
@@ -61,10 +61,8 @@ foreign key (hashtagId) references hashtags(id)\
   );\
 ";
     await db.query(query);
-    // await db.query("create database " + process.env.DB_NAME + ";");
-    // await db.query("use " + process.env.DB_NAME + ";");
     logger.info("database initialized!");
-  }
+  } else { await db.query("use " + process.env.DB_NAME + ";"); }
 }
 
 const env = {
@@ -72,26 +70,24 @@ const env = {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatements: true,
-    database: process.env.DB_NAME
+    multipleStatements: true
   },
   "test": {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatement: true,
-    database: process.env.DB_NAME
+    multipleStatement: true
   },
   "production": {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatement: true,
-    database: process.env.DB_NAME
+    multipleStatement: true
   },
 };
 
 const db = mysql.createPool(env[process.env.NODE_ENV]);
 initDB(db);
+
 
 module.exports = db;
