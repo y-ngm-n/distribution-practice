@@ -76,13 +76,13 @@ const env = {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatement: true
+    multipleStatements: true
   },
   "production": {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatement: true
+    multipleStatements: true
   },
 };
 
