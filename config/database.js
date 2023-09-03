@@ -5,7 +5,13 @@ const logger = require("./logger");
 
 dotenv.config();
 
-const initDB = async (db) => {
+const initDB = async () => {
+  const db = mysql.createPool({
+    host: "127.0.0.1",
+    user: "root",
+    password: process.env.DB_PASSWORD,
+    multipleStatements: true
+  });
   const result = await db.query(`show databases like '${process.env.DB_NAME}';`);
   const info = result[0][0];
   if (info === undefined) {
@@ -62,7 +68,8 @@ foreign key (hashtagId) references hashtags(id)\
 ";
     await db.query(query);
     logger.info("database initialized!");
-  } else { await db.query("use " + process.env.DB_NAME + ";"); }
+  }
+  await db.end();
 }
 
 const env = {
@@ -70,24 +77,27 @@ const env = {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatements: true
+    multipleStatements: true,
+    database: process.env.DB_NAME
   },
   "test": {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatements: true
+    multipleStatements: true,
+    database: process.env.DB_NAME
   },
   "production": {
     host: "127.0.0.1",
     user: "root",
     password: process.env.DB_PASSWORD,
-    multipleStatements: true
+    multipleStatements: true,
+    database: process.env.DB_NAME
   },
 };
 
+initDB();
 const db = mysql.createPool(env[process.env.NODE_ENV]);
-initDB(db);
 
 
 module.exports = db;

@@ -27,6 +27,8 @@ const redisClient = redis.createClient({
   url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
   password: process.env.REDIS_PASSWORD
 });
+const f = async () => { await redisClient.connect(); }
+f();
 
 // create app
 const app = express();
@@ -87,6 +89,7 @@ app.use((req, res, next) => {
 // error handling router
 app.use((err, req, res, next) => {
   logger.error(err);
+  console.error(err);
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
