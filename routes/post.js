@@ -10,12 +10,12 @@ const { isLoggedIn } = require("./middlewares");
 const Hashtags = require("../models/Hashtags");
 
 
-try {
-  fs.readdirSync('uploads');
-} catch(err) {
-  console.error("no directory 'uploads', created one");
-  fs.mkdirSync('uploads');
-}
+// try {
+//   fs.readdirSync('uploads');
+// } catch(err) {
+//   console.error("no directory 'uploads', created one");
+//   fs.mkdirSync('uploads');
+// }
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
