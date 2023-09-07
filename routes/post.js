@@ -8,6 +8,7 @@ const multerS3 = require("multer-s3");
 const db = require("../config/database");
 const { isLoggedIn } = require("./middlewares");
 const Hashtags = require("../models/Hashtags");
+const { originAgentCluster } = require("helmet");
 
 
 // try {
@@ -50,7 +51,9 @@ const router = express.Router();
 
 router.post("/img", isLoggedIn, upload.single('img'), (req, res) => {
   console.log(req.file);
-  res.json({ success: true, url: req.file.location });
+  const originalUrl = req.file.location;
+  const url = originalUrl.replace(/\/original\//, "/thumb/");
+  res.json({ success: true, url, originalUrl });
 });
 
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
